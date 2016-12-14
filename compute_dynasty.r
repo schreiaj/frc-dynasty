@@ -9,3 +9,6 @@ c("qm" = 0.0000,
                 "f" = 0.5000)-> lookup
 
 all_data$points = lookup[all_data$level]
+
+# Lower bound points for now, todo compute event winner points
+all_data %>% filter(win==T) %>% group_by(year, event, team) %>% summarise(points = max(points)) -> earnings
