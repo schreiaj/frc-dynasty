@@ -5,7 +5,7 @@ require(stringr)
 headers <- c("match", "r1", "r2", "r3", "b1", "b2", "b3", "rscore", "bscore")
 red <- c("r1", "r2", "r3")
 blue <- c("b1", "b2", "b3")
-fileNames <- grep('201[0-9][a-z]*_matches.csv',list.files(path = "./data/tba/events", all.files = TRUE, 
+fileNames <- grep('201[0-5][a-z]*_matches.csv',list.files(path = "./data/tba/events", all.files = TRUE, 
                                                                       full.names = TRUE, recursive = TRUE),value=TRUE) 
 match_data <- do.call("rbind", lapply(fileNames, read.csv2, header = FALSE, sep=","))
 colnames(match_data) <- headers
