@@ -1,3 +1,6 @@
+require(parallel)
+require(dplyr)
+require(reshape2)
 read.csv("dynasty_scores.csv") -> team_dynasty
 
 rnorm2 <- function(n,mean,sd) { mean+sd*scale(rnorm(n)) }
@@ -29,7 +32,15 @@ run_event<- function (teams = c(), n=5) {
     min=min(Var1), 
     max=max(Var1),
     captain = mean(captain),
-    eliminations = mean(eliminations)
+    eliminations = mean(eliminations),
+    runs = n()
   ) %>% arrange(avg)
   
+}
+
+
+parallel_run_event = function(teams = c(), groups = 1, perGroup = 2) {
+  mclapply(seq(1:groups), function(i){run_event(teams, n=perGroup)}) %>%
+    bind_rows %>% 
+    group_by(value) %>% summarise(avg = mean(avg), var=mean(var), max=max(max), min=min(min), captain=mean(captain), eliminations=mean(eliminations), runs=sum(runs)) %>% arrange(avg)
 }

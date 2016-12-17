@@ -4,12 +4,12 @@ services:
     image: rocker/rstudio
     volumes:
       - ./:/home/rstudio/src/dynasty
-    depends_on:
-      - db
+    # depends_on:
+    #   - db
     ports:
       - "8787"
-  db:
-    image: postgres
-    environment:
-      POSTGRES_PASSWORD: docker
-      POSTGRES_USER: docker
+  # db:
+  #   image: postgres
+  #   environment:
+  #     POSTGRES_PASSWORD: docker
+  #     POSTGRES_USER: docker
