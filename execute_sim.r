@@ -44,3 +44,9 @@ parallel_run_event = function(teams = c(), groups = 1, perGroup = 2) {
     bind_rows %>% 
     group_by(value) %>% summarise(avg = mean(avg), var=mean(var), max=max(max), min=min(min), captain=mean(captain), eliminations=mean(eliminations), runs=sum(runs)) %>% arrange(avg)
 }
+
+get_teams_from_tba <- function(eventCode){
+  endpoint <- paste("http://thebluealliance.com/api/v2/event/", eventCode ,"/teams", sep="")
+  GET(endpoint, add_headers("X-TBA-App-Id" = "schreiaj:dynasty:v3")) %>% content("text") %>% fromJSON() -> event_data
+  event_data$key
+}
