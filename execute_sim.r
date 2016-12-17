@@ -50,3 +50,14 @@ get_teams_from_tba <- function(eventCode){
   GET(endpoint, add_headers("X-TBA-App-Id" = "schreiaj:dynasty:v3")) %>% content("text") %>% fromJSON() -> event_data
   event_data$key
 }
+
+get_events_for_year <- function(year) {
+  endpoint <- paste("http://thebluealliance.com/api/v2/events/", year, sep="")
+  GET(endpoint, add_headers("X-TBA-App-Id" = "schreiaj:dynasty:v3")) %>% content("text") %>% fromJSON() -> event_data
+  event_data %>% arrange(start_date)
+}
+
+run_events_for_year <- function(year, groups=1, perGroup=2) {
+  events = get_events_for_year(year) %>% filter (official == T)
+  lapply(events$key, function(i) { get_teams_from_tba(i) %>% parallel_run_event(groups,perGroup)} ) -> test_events
+}
